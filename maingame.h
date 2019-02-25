@@ -107,7 +107,7 @@ public:
 					view.move(-2, 0);
 				}
 			}
-			if (x > 1290)
+			if (x > 1296)
 			{
 				x = 3;
 				view.setCenter(view.getCenter().x - view.getSize().x, view.getCenter().y);
@@ -116,32 +116,34 @@ public:
 			if (x < 3)
 			{
 				if (noofslidex <= 0)
+				{
 					x = 3;
+				}
 				else
 				{
-					x = 1289;
+					x = 1295;
 					view.setCenter(view.getCenter().x+view.getSize().x,view.getCenter().y);
 					noofslidex--;
 				}
 			}
-			if (y <1)
+			if (y <2)
 			{
 				if (noofslidey < 1)
 				{
-					y = 580;
+					y = 646;
 					view.setCenter(view.getCenter().x, view.getCenter().y - view.getSize().y);
 					noofslidey++;
 				}
 				else
-					y = 1;
+					y = 2;
 			}
-			if (y >580)
+			if (y >646)
 			{
 				if (noofslidey <= 0)
 					y = 580;
 				else
 				{
-					y = 1;
+					y = 2;
 					view.setCenter( view.getSize().x, view.getCenter().y + view.getCenter().y);
 					noofslidey--;
 				}
