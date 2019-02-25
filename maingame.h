@@ -122,7 +122,7 @@ public:
 					noofslidex--;
 				}
 			}
-			if (y <1)
+			if (y <2)
 			{
 				if (noofslidey < 1)
 				{
@@ -131,7 +131,7 @@ public:
 					noofslidey++;
 				}
 				else
-					y = 1;
+					y = 2;
 			}
 			if (y >580)
 			{
@@ -139,7 +139,7 @@ public:
 					y = 580;
 				else
 				{
-					y = 1;
+					y = 2;
 					view.setCenter( view.getSize().x, view.getCenter().y + view.getCenter().y);
 					noofslidey--;
 				}
