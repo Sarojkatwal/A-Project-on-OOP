@@ -30,7 +30,7 @@ public:
 		Sprite sprite,sprite1,sprite4obstacles[3];
 		sprite.setTexture(texture1);
 		sprite1.setTexture(texture2);
-		sprite1.setScale(2.6, 0.2);
+		sprite1.setScale(2.9, 0.2);
 		sprite1.setPosition(0, 600);
 		for (int i = 0; i < 3; i++)
 		{
@@ -63,43 +63,36 @@ public:
 						 if (direction == 'R')
 						 {
 							 xofimg = 3;
-							 if (x < 1294)
-							 {
-								 view.move(2, -2);
-							 }
 						 }
 						 else if (direction == 'L')
 						 {
 							 xofimg = 1;
-							 if (x > 6)
-							 {
-								 view.move(-2, -2);
-							 }
 						 }
 						 y = player.getPosition().y - 15;
-						 player.setPosition(x, y);
+						 //player.setPosition(x, y);
 					 }
 				}
-				/*if (event.type = Event::MouseButtonPressed)
+				if (event.type = Event::MouseButtonPressed)
 				{
 					if (event.mouseButton.button == sf::Mouse::Right)
 					{
-						cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
-						cout << view.getCenter().x << endl;
+						//cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
+						cout << noofslidex<<"   "<<noofslidey<< endl;
 					}
-				}*/
+				}
+				
 			}
 			y = y + 3;
 			if (direction == 'R')
 			{
 				xofimg = 3;
-				x = x + 4;
+				x = x + 20;
 				view.move(2, 0);
 			}
 			else if (direction == 'L')
 			{
 				xofimg = 1;
-				x = x - 4;
+				x = x - 20;
 				if (x > 3)
 				{
 					view.move(-2, 0);
@@ -107,50 +100,61 @@ public:
 			}
 			if (x > 1296)
 			{
-				x = 3;
-				view.setCenter(view.getCenter().x - view.getSize().x, view.getCenter().y);
-				noofslidex++;
+				if (noofslidex >2)
+					x = 1296;
+				else
+				{
+					x = 4;
+					view.setCenter(view.getCenter().x + view.getSize().x, view.getCenter().y);
+					noofslidex++;
+				}
 			}
 			if (x < 3)
 			{
 				if (noofslidex <= 0)
+				{
 					x = 3;
+				}
 				else
 				{
-					x = 1289;
-					view.setCenter(view.getCenter().x+view.getSize().x,view.getCenter().y);
+					x = 1292;
+					view.setCenter(view.getCenter().x-view.getSize().x,view.getCenter().y);
 					noofslidex--;
 				}
 			}
-			if (y <2)
+			if (y <6)
 			{
-				if (noofslidey < 1)
+				if (noofslidey == 0)
 				{
-					y = 580;
+
+					y = 576;
 					view.setCenter(view.getCenter().x, view.getCenter().y - view.getSize().y);
+			
 					noofslidey++;
 				}
 				else
-					y = 2;
+					y = 6;
 			}
 			if (y >580)
 			{
-				if (noofslidey <= 0)
+				if (noofslidey == 0)
+				{
 					y = 580;
+				}
 				else
 				{
-					y = 2;
-					view.setCenter( view.getSize().x, view.getCenter().y + view.getCenter().y);
+					y = 6;
+					view.setCenter( view.getSize().x, view.getCenter().y + view.getSize().y);
 					noofslidey--;
 				}
 			}
-			if (view.getCenter().y < 550)
+			if (view.getCenter().x < 200)
 			{
-				view.move(0, 1);
+				view.setCenter(200, view.getCenter().y);
 			}
-			else
+			if (view.getCenter().x> 1300)
 			{
-				view.setCenter(view.getCenter().x, 550);
+				view.setCenter(1300, view.getCenter().y);
 			}
 			animation.Update(xofimg,deltatime);
 			player.setTextureRect(animation.uvRect);
