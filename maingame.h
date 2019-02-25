@@ -105,7 +105,7 @@ public:
 					view.move(-2, 0);
 				}
 			}
-			if (x > 1290)
+			if (x > 1296)
 			{
 				x = 3;
 				view.setCenter(view.getCenter().x - view.getSize().x, view.getCenter().y);
