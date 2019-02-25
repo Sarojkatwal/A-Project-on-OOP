@@ -14,7 +14,7 @@ public:
 		window.setPosition(Vector2i(30, 20));
 		RectangleShape player(Vector2f(50.0f, 50.0f));
 		View view(FloatRect(0.f, 0.f, 200.f, 200.f));
-		view.setCenter(200,550);
+		view.setCenter(200,550); 
 		Texture texture, texture1,texture2,texture4obstacles[3];
 		texture.loadFromFile("images/george.png");
 		texture1.loadFromFile("images/background_land.png");
@@ -35,7 +35,15 @@ public:
 		for (int i = 0; i < 3; i++)
 		{
 			sprite4obstacles[i].setTexture(texture4obstacles[i]);
+			sprite4obstacles[i].setScale(0.1, 0.1);
 		}
+
+		//POSITION FOR OBSTACLE
+		sprite4obstacles[0].setPosition(1000,300);
+		sprite4obstacles[1].setPosition(500,30);
+		sprite4obstacles[2].setPosition(100,60);
+		sprite4obstacles[3].setPosition(20,40);
+
 		while (window.isOpen())
 		{
 			player.setPosition(Vector2f(x, y));
@@ -87,7 +95,7 @@ public:
 			{
 				xofimg = 3;
 				x = x + 20;
-				view.move(2, 0);
+				view.move(0.25, 0);
 			}
 			else if (direction == 'L')
 			{
@@ -95,7 +103,7 @@ public:
 				x = x - 20;
 				if (x > 3)
 				{
-					view.move(-2, 0);
+					view.move(-0.25, 0);
 				}
 			}
 			if (x > 1296)
@@ -127,7 +135,7 @@ public:
 				if (noofslidey == 0)
 				{
 
-					y = 576;
+					y = 570;
 					view.setCenter(view.getCenter().x, view.getCenter().y - view.getSize().y);
 			
 					noofslidey++;
@@ -144,7 +152,7 @@ public:
 				else
 				{
 					y = 6;
-					view.setCenter( view.getSize().x, view.getCenter().y + view.getSize().y);
+					view.setCenter( view.getCenter().x, view.getCenter().y + view.getSize().y);
 					noofslidey--;
 				}
 			}
@@ -162,11 +170,11 @@ public:
 			window.setView(view);
 			window.draw(sprite);
 			window.draw(sprite1);
-			window.setView(window.getDefaultView());
-			/*for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				window.draw(sprite4obstacles[i]);
-			}*/
+			}
+			window.setView(window.getDefaultView());
 			window.draw(player);
 			window.display();
 			sleep(seconds(0.08));
