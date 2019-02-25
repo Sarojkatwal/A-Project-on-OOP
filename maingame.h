@@ -63,18 +63,16 @@ public:
 						 if (direction == 'R')
 						 {
 							 xofimg = 3;
-							 if (x < 1296)
+							 if (x < 1294)
 							 {
-								 x = x + 4;
 								 view.move(2, -2);
 							 }
 						 }
 						 else if (direction == 'L')
 						 {
 							 xofimg = 1;
-							 if (x > 4)
+							 if (x > 6)
 							 {
-								 x = x - 4;
 								 view.move(-2, -2);
 							 }
 						 }
@@ -146,14 +144,14 @@ public:
 					noofslidey--;
 				}
 			}
-			/*if (view.getCenter().y < 550)
+			if (view.getCenter().y < 550)
 			{
 				view.move(0, 1);
 			}
 			else
 			{
 				view.setCenter(view.getCenter().x, 550);
-			}*/
+			}
 			animation.Update(xofimg,deltatime);
 			player.setTextureRect(animation.uvRect);
 			window.clear(Color::Red);
