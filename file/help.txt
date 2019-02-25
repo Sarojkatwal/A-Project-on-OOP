@@ -1,0 +1,5 @@
+                              Help
+This is a game where you have to run and jump by 
+collecting coins.Player have to save the character 
+from different obstacles on the way.Finally reach-
+ing to the destination new level will be unlocked.$
