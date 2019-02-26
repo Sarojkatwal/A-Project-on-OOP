@@ -33,7 +33,11 @@ public:
 		float FlagX[3] = {420,680,980};
 		float FlagY[3] = {580,280,577.5};
 		float DangerX[2] = {725,960};
-		float DangerY[2] = {300,400};
+		float DangerY[2] = {300,900};
+		float Life2X[2] = {610,860};
+		float Life2Y[2]={270,460};
+		float Life1X[2] = {265 ,842 };
+		float Life1Y[2]={ 610,260 };
 		float Fire2X[9], Fire2Y[9];
 		for (int i = 0; i < 9; i++)
 		{
@@ -191,13 +195,13 @@ public:
 		{
 			life1[i].setTexture(texture4lifeincreasingthings[0]);
 			life1[i].setScale(0.05, 0.05);
-			//life1[i].setPosition();
+			life1[i].setPosition(Life1X[i],Life1Y[i]);
 		}
 		for (int i = 0; i < 2; i++)
 		{
 			life2[i].setTexture(texture4lifeincreasingthings[1]);
 			life2[i].setScale(0.05, 0.05);
-			//life2[i].setPosition();
+			life2[i].setPosition(Life2X[i],Life2Y[i]);
 		}
 
 		while (window.isOpen())
@@ -243,7 +247,7 @@ public:
 						//cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
 						//cout << land[1].getLocalBounds().width<<"   "<< land[1].getLocalBounds().height<< endl;
 						//cout << land[1].getGlobalBounds().width << "   " << land[1].getGlobalBounds().height << endl;
-						cout << flag[2].getGlobalBounds().width << "   " << flag[2].getGlobalBounds().height << endl;
+						cout << life2[1].getGlobalBounds().width << "   " << life2[1].getGlobalBounds().height << endl;
 						//cout << bomb[1].getGlobalBounds().width << "   " << bomb[1].getGlobalBounds().height << endl;
 						//cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;
 						//cout << player.getGlobalBounds().width << "   " << player.getGlobalBounds().height << endl<<endl<<endl;
@@ -363,6 +367,8 @@ public:
 			for (int i = 0; i < 2; i++)
 			{
 				window.draw(danger[i]);
+				window.draw(life2[i]);
+				window.draw(life1[i]);
 			}
 			window.draw(fire2[1]);
 			window.draw(flag[2]);
