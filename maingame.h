@@ -10,10 +10,10 @@ public:
 	bool start()
 	{
 		//Making array of obstacles and helping bars and life increasing materials
-		string dangerobstacle[7] = { "images/fire_P.png","images/fire_prev.png","images/thumb.png","images/danger.png","images/Fire-PNG-File.png","images/bomb.png","images/lake.png"};
+		string dangerobstacle[6] = { "images/fire_P.png","images/fire_prev.png","images/thumb.png","images/danger.png","images/bomb.png","images/lake.png"};
 		string lessdangerobstacle[3] = { "images/bar.png","images/PipeDown.png","images/PipeUp.png" };
-		string helpingbars[3] = { "images/loadingFull.png" ,"images/land.png","images/logs.png"};
-		string lifeincreasingthings[4] = { "images/life.png" ,"images/life1.png","images/life2.png","images/vitamin.png"};
+		string helpingbars[2] = { "images/loadingFull.png" ,"images/land.png"};
+		string lifeincreasingthings[2] = { "images/life.png" ,"images/life1.png"};
 		string flags[3] = { "images/firstflag.png","images/secondflag.png","images/lastflag.png" };
 
 
@@ -24,10 +24,28 @@ public:
 		float PipedownY[9] = {450,250,220,430,501.4,324.6,546,358.8,576.4};
 		float ThumbX[4] = {160.0,360.5,420.4,854.15};
 		float ThumbY[4] = {618.15,418.2,618.15,618.15};
-		float LandX[8] = {140,200,340,490,600,700,930,973.9};
+		float LandX[8] = {140,180,340,490,600,700,930,973.9};
 		float LandY[8] = {530,350,520,430,290,500,290,557.15};
 		float PondX[2] = {260,795};
 		float PondY[2] = {615,605};
+		float BombX[3] = {395,700,980};
+		float BombY[3] = {580,330,540.35};
+		float FlagX[3] = {420,680,980};
+		float FlagY[3] = {580,280,577.5};
+		float DangerX[2] = {725,960};
+		float DangerY[2] = {300,400};
+		float Fire2X[9], Fire2Y[9];
+		for (int i = 0; i < 9; i++)
+		{
+			Fire2X[i] = PipeupX[i] - 32.0;
+			Fire2Y[i] = PipeUpY[i] - 36.0;
+		}
+		float Fire1X[9], Fire1Y[9];
+		for (int i = 0; i < 9; i++)
+		{
+			Fire1X[i] = PipeupX[i] + 32.0;
+			Fire1Y[i] = PipeUpY[i] - 36.0;
+		}
 
 		RenderWindow window(VideoMode(1300, 650), "Maingame");
 		window.setPosition(Vector2i(30, 20));
@@ -36,11 +54,11 @@ public:
 		view.setSize(200.f, 200.f);
 		view.setCenter(200, 550);
 
-		Texture texture, texture1,texture2,texture4dangerobstacles[7], texture4lessdangerobstacles[3],texture4helpingbars[3],texture4lifeincreasingthings[4],texture4flag[3];
+		Texture texture, texture1,texture2,texture4dangerobstacles[6], texture4lessdangerobstacles[3],texture4helpingbars[2],texture4lifeincreasingthings[2],texture4flag[3];
 		texture.loadFromFile("images/george.png");
 		texture1.loadFromFile("images/background_land.png");
 		texture2.loadFromFile("images/grass04.png");
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			texture4dangerobstacles[i].loadFromFile(dangerobstacle[i]);
 		}
@@ -52,11 +70,11 @@ public:
 		{
 			texture4flag[i].loadFromFile(flags[i]);
 		}
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			texture4helpingbars[i].loadFromFile(helpingbars[i]);
 		}
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			texture4lifeincreasingthings[i].loadFromFile(lifeincreasingthings[i]);
 		}
@@ -68,11 +86,11 @@ public:
 
 		/////Sprite
 		Sprite sprite, sprite1;
-		Sprite fire1[4],fire2[5],fire3[6];
+		Sprite fire1[9], fire2[9];
 		Sprite pond[2],bomb[3],thumb[4],danger[2];
 		Sprite pipedown[15],pipeup[10],bar[8];
-		Sprite loadingfull[10], logs[8], land[8];
-		Sprite life1[2], life2[3], life3[3], life4[2];
+		Sprite loadingfull[5], land[8];
+		Sprite life1[2], life2[2];
 		Sprite flag[3];
 		sprite.setTexture(texture1);
 		sprite1.setTexture(texture2);
@@ -84,49 +102,43 @@ public:
 		{
 			flag[i].setTexture(texture4flag[i]);
 			flag[i].setScale(0.1, 0.1);
+			flag[i].setPosition(FlagX[i], FlagY[i]);
 		}
 		//Danger
 		//(fire1)
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 9; i++)
 		{
 			fire1[i].setTexture(texture4dangerobstacles[0]);
-			fire1[i].setScale(0.08, 0.08);
-			//fire1[i].setPosition();
+			fire1[i].setScale(0.04, 0.04);
+			fire1[i].setPosition(Fire1X[i],Fire1Y[i]);
 		}
 		//fire2
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 9; i++)
 		{
 			fire2[i].setTexture(texture4dangerobstacles[1]);
 			fire2[i].setScale(0.05*3, 0.05*3);
-			//fire2[i].setPosition();
-		}
-		//fire3
-		for (int i = 0; i < 6; i++)
-		{
-			fire3[i].setTexture(texture4dangerobstacles[4]);
-			fire3[i].setScale(0.05, 0.05);
-			//fire3[i].setPosition();
+			fire2[i].setPosition(Fire2X[i],Fire2Y[i]);
 		}
 		//pond
 		for (int i = 0; i < 2; i++)
 		{
-			pond[i].setTexture(texture4dangerobstacles[6]);
+			pond[i].setTexture(texture4dangerobstacles[5]);
 			pond[i].setScale(0.09,0.4);
 			pond[i].setPosition(PondX[i],PondY[i]);
 		}
 		//bomb
 		for (int i = 0; i < 3; i++)
 		{
-			bomb[i].setTexture(texture4dangerobstacles[5]);
+			bomb[i].setTexture(texture4dangerobstacles[4]);
 			bomb[i].setScale(0.05*1.5, 0.05*1.5);
-			//bomb[i].setPosition();
+			bomb[i].setPosition(BombX[i],BombY[i]);
 		}
 		//Danger
 		for (int i = 0; i < 2; i++)
 		{
 			danger[i].setTexture(texture4dangerobstacles[3]);
-			danger[i].setScale(0.02, 0.02);
-			//danger[i].setPosition();
+			danger[i].setScale(0.03, 0.03);
+			danger[i].setPosition(DangerX[i],DangerY[i]);
 		}
 		//thumb
 		for (int i = 0; i < 4; i++)
@@ -136,7 +148,7 @@ public:
 			thumb[i].setPosition(ThumbX[i],ThumbY[i]);
 		}
 
-		//Non danger
+		//less danger
 		//Pipedown
 		for (int i = 0; i < 9; i++)
 		{
@@ -161,7 +173,7 @@ public:
 
 		//Helping objects
 		//loadingfull
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			loadingfull[i].setTexture(texture4helpingbars[0]);
 			loadingfull[i].setScale(0.05, 0.05);
@@ -174,14 +186,6 @@ public:
 			land[i].setScale(0.05*1.5, 0.05*1.5);
 			land[i].setPosition(LandX[i],LandY[i]);
 		}
-		//Logs
-		for (int i = 0; i < 8; i++)
-		{
-			logs[i].setTexture(texture4helpingbars[2]);
-			logs[i].setScale(0.05, 0.05);
-			//logs[i].setPosition();
-		}
-		
 		//Life
 		for (int i = 0; i < 2; i++)
 		{
@@ -189,25 +193,12 @@ public:
 			life1[i].setScale(0.05, 0.05);
 			//life1[i].setPosition();
 		}
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			life2[i].setTexture(texture4lifeincreasingthings[1]);
 			life2[i].setScale(0.05, 0.05);
 			//life2[i].setPosition();
 		}
-		for (int i = 0; i < 3; i++)
-		{
-			life3[i].setTexture(texture4lifeincreasingthings[2]);
-			life3[i].setScale(0.05, 0.05);
-			//life3[i].setPosition();
-		}
-		for (int i = 0; i < 2; i++)
-		{
-			life4[i].setTexture(texture4lifeincreasingthings[3]);
-			life4[i].setScale(0.05, 0.05);
-			//life4[i].setPosition();
-		}
-
 
 		while (window.isOpen())
 		{
@@ -252,14 +243,13 @@ public:
 						//cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
 						//cout << land[1].getLocalBounds().width<<"   "<< land[1].getLocalBounds().height<< endl;
 						//cout << land[1].getGlobalBounds().width << "   " << land[1].getGlobalBounds().height << endl;
-						cout << pond[1].getGlobalBounds().width << "   " << pond[1].getGlobalBounds().height << endl;
+						cout << flag[2].getGlobalBounds().width << "   " << flag[2].getGlobalBounds().height << endl;
 						//cout << bomb[1].getGlobalBounds().width << "   " << bomb[1].getGlobalBounds().height << endl;
 						//cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;
 						//cout << player.getGlobalBounds().width << "   " << player.getGlobalBounds().height << endl<<endl<<endl;
 						//cout << pipeup[1].getGlobalBounds().top << "   " << pipeup[1].getGlobalBounds().left << endl;
 					}
 				}
-				flag[2].setPosition(980,577.5);
 			}
 			y = y + 3;
 			if (direction == 'R')
@@ -354,6 +344,8 @@ public:
 			{
 				window.draw(pipedown[i]);
 				window.draw(pipeup[i]);
+				window.draw(fire2[i]);
+				window.draw(fire1[i]);
 			}
 			for (int i = 0; i < 4; i++)
 			{
@@ -363,6 +355,16 @@ public:
 			{
 				window.draw(land[i]);
 			}
+			for (int i = 0; i < 3; i++)
+			{
+				window.draw(flag[i]);
+				window.draw(bomb[i]);
+			}
+			for (int i = 0; i < 2; i++)
+			{
+				window.draw(danger[i]);
+			}
+			window.draw(fire2[1]);
 			window.draw(flag[2]);
 			window.display();
 			sleep(seconds(0.08));
