@@ -7,7 +7,7 @@ class mainGame
 public:
 	int x=0, y=580,xofimg,noofslidex=0,noofslidey=0;
 	char direction='R';
-	bool isjumping = false,ismoving=true;
+	bool isjumping = false;
 	bool start()
 	{
 		//Making array of obstacles and helping bars and life increasing materials
@@ -276,25 +276,19 @@ public:
 			if (direction == 'R')
 			{
 				xofimg = 3;
-				if (ismoving == true)
+				x = x + 20;
+				if (x < 1296)
 				{
-					x = x + 20;
-					if (x < 1296)
-					{
-						view.move(0.5, 0);
-					}
+					view.move(0.5, 0);
 				}
 			}
 			else if (direction == 'L')
 			{
 				xofimg = 1;
-				if (ismoving == true)
+				x = x - 20;
+				if (x > 3)
 				{
-					x = x + 20;
-					if (x > 3)
-					{
-						view.move(-0.5, 0);
-					}
+					view.move(-0.5, 0);
 				}
 			}
 			if (x > 1296)
