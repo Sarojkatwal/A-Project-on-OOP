@@ -58,10 +58,11 @@ public:
 		view.setSize(200.f, 200.f);
 		view.setCenter(200, 550);
 
-		Texture texture, texture1,texture2,texture4dangerobstacles[6], texture4lessdangerobstacles[3],texture4helpingbars[2],texture4lifeincreasingthings[2],texture4flag[3];
+		Texture texture, texture1,texture2,texture4coin,texture4dangerobstacles[6], texture4lessdangerobstacles[3],texture4helpingbars[2],texture4lifeincreasingthings[2],texture4flag[3];
 		texture.loadFromFile("images/george.png");
 		texture1.loadFromFile("images/background_land.png");
 		texture2.loadFromFile("images/grass04.png");
+		texture4coin.loadFromFile("images/Coin.png");
 		for (int i = 0; i < 6; i++)
 		{
 			texture4dangerobstacles[i].loadFromFile(dangerobstacle[i]);
@@ -89,7 +90,7 @@ public:
 		Clock clock;
 
 		/////Sprite
-		Sprite sprite, sprite1;
+		Sprite sprite, sprite1,coin[20];
 		Sprite fire1[9], fire2[9];
 		Sprite pond[2],bomb[3],thumb[4],danger[2];
 		Sprite pipedown[15],pipeup[10],bar[8];
@@ -100,7 +101,12 @@ public:
 		sprite1.setTexture(texture2);
 		sprite1.setScale(2.9, 0.2);
 		sprite1.setPosition(0, 600);
-
+		//Coin
+		for (int i = 0; i < 20; i++)
+		{
+			coin[i].setTexture(texture4coin);
+			//coin[i].setPosition(CoinX[i], CoinY[i]);
+		}
 		//Flags
 		for (int i = 0; i < 3; i++)
 		{
