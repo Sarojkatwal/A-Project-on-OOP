@@ -290,7 +290,7 @@ public:
 				xofimg = 1;
 				if (ismoving == true)
 				{
-					x = x + 20;
+					x = x - 20;
 					if (x > 3)
 					{
 						view.move(-0.5, 0);
