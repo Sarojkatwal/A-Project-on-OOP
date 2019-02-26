@@ -14,7 +14,20 @@ public:
 		string lessdangerobstacle[3] = { "images/bar.png","images/PipeDown.png","images/PipeUp.png" };
 		string helpingbars[3] = { "images/loadingFull.png" ,"images/land.png","images/logs.png"};
 		string lifeincreasingthings[4] = { "images/life.png" ,"images/life1.png","images/life2.png","images/vitamin.png"};
+		string flags[3] = { "images/firstflag.png","images/secondflag.png","images/lastflag.png" };
 
+
+		//Position for different objects
+		float PipeupX[9] = {250,270,470,470,660,660,660,840,840};
+		float PipeUpY[9] = {576.4,376.4,356.4,540,250.6,605,427.8,472.4,285.2};
+		float PipedownX[9] = {250,270,470,470,660,660,840,840,960};
+		float PipedownY[9] = {450,250,220,430,501.4,324.6,546,358.8,576.4};
+		float ThumbX[4] = {160.0,360.5,420.4,854.15};
+		float ThumbY[4] = {618.15,418.2,618.15,618.15};
+		float LandX[8] = {140,200,340,490,600,700,930,973.9};
+		float LandY[8] = {530,350,520,430,290,500,290,557.15};
+		float PondX[2] = {260,795};
+		float PondY[2] = {615,605};
 
 		RenderWindow window(VideoMode(1300, 650), "Maingame");
 		window.setPosition(Vector2i(30, 20));
@@ -23,7 +36,7 @@ public:
 		view.setSize(200.f, 200.f);
 		view.setCenter(200, 550);
 
-		Texture texture, texture1,texture2,texture4dangerobstacles[7], texture4lessdangerobstacles[3],texture4helpingbars[3],texture4lifeincreasingthings[4];
+		Texture texture, texture1,texture2,texture4dangerobstacles[7], texture4lessdangerobstacles[3],texture4helpingbars[3],texture4lifeincreasingthings[4],texture4flag[3];
 		texture.loadFromFile("images/george.png");
 		texture1.loadFromFile("images/background_land.png");
 		texture2.loadFromFile("images/grass04.png");
@@ -34,6 +47,10 @@ public:
 		for (int i = 0; i < 3; i++)
 		{
 			texture4lessdangerobstacles[i].loadFromFile(lessdangerobstacle[i]);
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			texture4flag[i].loadFromFile(flags[i]);
 		}
 		for (int i = 0; i < 3; i++)
 		{
@@ -52,14 +69,22 @@ public:
 		/////Sprite
 		Sprite sprite, sprite1;
 		Sprite fire1[4],fire2[5],fire3[6];
-		Sprite pond[4],bomb[3],thumb[4],danger[2];
+		Sprite pond[2],bomb[3],thumb[4],danger[2];
 		Sprite pipedown[15],pipeup[10],bar[8];
 		Sprite loadingfull[10], logs[8], land[8];
 		Sprite life1[2], life2[3], life3[3], life4[2];
+		Sprite flag[3];
 		sprite.setTexture(texture1);
 		sprite1.setTexture(texture2);
 		sprite1.setScale(2.9, 0.2);
 		sprite1.setPosition(0, 600);
+
+		//Flags
+		for (int i = 0; i < 3; i++)
+		{
+			flag[i].setTexture(texture4flag[i]);
+			flag[i].setScale(0.1, 0.1);
+		}
 		//Danger
 		//(fire1)
 		for (int i = 0; i < 4; i++)
@@ -83,11 +108,11 @@ public:
 			//fire3[i].setPosition();
 		}
 		//pond
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			pond[i].setTexture(texture4dangerobstacles[6]);
-			pond[i].setScale(0.05, 0.05);
-			//pond[i].setPosition();
+			pond[i].setScale(0.09,0.4);
+			pond[i].setPosition(PondX[i],PondY[i]);
 		}
 		//bomb
 		for (int i = 0; i < 3; i++)
@@ -108,23 +133,23 @@ public:
 		{
 			thumb[i].setTexture(texture4dangerobstacles[2]);
 			thumb[i].setScale(0.05*3, 0.05*2);
-			//thumb[i].setPosition();
+			thumb[i].setPosition(ThumbX[i],ThumbY[i]);
 		}
 
 		//Non danger
 		//Pipedown
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 9; i++)
 		{
 			pipedown[i].setTexture(texture4lessdangerobstacles[1]);
 			pipedown[i].setScale(0.2, 0.2);
-			//pipedown[i].setPosition();
+			pipedown[i].setPosition(PipedownX[i],PipedownY[i]);
 		}
 		//Pipeup
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 9; i++)
 		{
 			pipeup[i].setTexture(texture4lessdangerobstacles[2]);
 			pipeup[i].setScale(0.2, 0.2);
-			//pipeup[i].setPosition();
+			pipeup[i].setPosition(PipeupX[i],PipeUpY[i]);
 		}
 		//Bars
 		for (int i = 0; i < 8; i++)
@@ -146,8 +171,8 @@ public:
 		for (int i = 0; i < 8; i++)
 		{
 			land[i].setTexture(texture4helpingbars[1]);
-			land[i].setScale(0.05, 0.05);
-			//land[i].setPosition();
+			land[i].setScale(0.05*1.5, 0.05*1.5);
+			land[i].setPosition(LandX[i],LandY[i]);
 		}
 		//Logs
 		for (int i = 0; i < 8; i++)
@@ -224,18 +249,17 @@ public:
 				{
 					if (event.mouseButton.button == sf::Mouse::Right)
 					{
-						cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
-						cout << fire2[1].getLocalBounds().width<<"   "<< fire2[1].getLocalBounds().height<< endl;
-						cout << fire2[1].getGlobalBounds().width << "   " << fire2[1].getGlobalBounds().height << endl;
-						cout << bomb[1].getGlobalBounds().width << "   " << bomb[1].getGlobalBounds().height << endl;
-						cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;
+						//cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
+						//cout << land[1].getLocalBounds().width<<"   "<< land[1].getLocalBounds().height<< endl;
+						//cout << land[1].getGlobalBounds().width << "   " << land[1].getGlobalBounds().height << endl;
+						cout << pond[1].getGlobalBounds().width << "   " << pond[1].getGlobalBounds().height << endl;
+						//cout << bomb[1].getGlobalBounds().width << "   " << bomb[1].getGlobalBounds().height << endl;
+						//cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;
 						//cout << player.getGlobalBounds().width << "   " << player.getGlobalBounds().height << endl<<endl<<endl;
 						//cout << pipeup[1].getGlobalBounds().top << "   " << pipeup[1].getGlobalBounds().left << endl;
 					}
 				}
-				fire2[1].setPosition(150, 521.44);
-				bomb[1].setPosition(250,450);
-				thumb[1].setPosition(160,618.15);
+				flag[2].setPosition(980,577.5);
 			}
 			y = y + 3;
 			if (direction == 'R')
@@ -320,11 +344,26 @@ public:
 			window.setView(view);
 			window.draw(sprite);
 			window.draw(sprite1);
-			window.draw(fire2[1]);
-			window.draw(bomb[1]);
-			window.draw(thumb[1]);
+			window.draw(pond[1]);
+			window.draw(pond[0]);
 			window.setView(window.getDefaultView());
 			window.draw(player);
+			window.setView(view);
+			window.draw(land[1]);
+			for (int i = 0; i < 9; i++)
+			{
+				window.draw(pipedown[i]);
+				window.draw(pipeup[i]);
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				window.draw(thumb[i]);
+			}
+			for (int i = 0; i < 8; i++)
+			{
+				window.draw(land[i]);
+			}
+			window.draw(flag[2]);
 			window.display();
 			sleep(seconds(0.08));
 		}
