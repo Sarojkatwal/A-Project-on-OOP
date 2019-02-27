@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="animation.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="construction.h" />
     <ClInclude Include="Fromfile.h" />
     <ClInclude Include="maingame.h" />

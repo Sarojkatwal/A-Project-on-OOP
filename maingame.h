@@ -1,5 +1,6 @@
 #pragma once
 #include "animation.h"
+#include "Collision.h"
 using namespace sf;
 using namespace std;
 class mainGame
@@ -7,7 +8,7 @@ class mainGame
 public:
 	int x=0, y=580,xofimg,noofslidex=0,noofslidey=0;
 	char direction='R';
-	bool isjumping = false,ismoving=true;
+	bool isjumping = false, ismoving = true, onsupport = false,onverticalblock=false;
 	bool start()
 	{
 		//Making array of obstacles and helping bars and life increasing materials
@@ -16,8 +17,6 @@ public:
 		string helpingbars[2] = { "images/loadingFull.png" ,"images/land.png"};
 		string lifeincreasingthings[2] = { "images/life.png" ,"images/life1.png"};
 		string flags[3] = { "images/firstflag.png","images/secondflag.png","images/lastflag.png" };
-
-
 		//Position for different objects
 		float PipeupX[9] = {250,270,470,470,660,660,660,840,840};
 		float PipeUpY[9] = {576.4,376.4,356.4,540,250.6,605,427.8,472.4,285.2};
@@ -25,8 +24,8 @@ public:
 		float PipedownY[9] = {450,250,220,430,501.4,324.6,546,358.8,576.4};
 		float ThumbX[4] = {160.0,360.5,420.4,854.15};
 		float ThumbY[4] = {618.15,418.2,618.15,618.15};
-		float LandX[8] = {140,180,340,490,600,700,930,973.9};
-		float LandY[8] = {530,350,520,430,290,500,290,557.15};
+		float LandX[8] = {150,140,340,490,600,700,930,973.9};
+		float LandY[8] = {350,530,520,430,290,500,290,557.15};
 		float PondX[2] = {260,795};
 		float PondY[2] = {615,605};
 		float BombX[3] = {395,700,980};
@@ -51,7 +50,6 @@ public:
 			Fire1X[i] = PipeupX[i] + 32.0;
 			Fire1Y[i] = PipeUpY[i] - 36.0;
 		}
-
 		RenderWindow window(VideoMode(1300, 650), "Maingame");
 		window.setPosition(Vector2i(30, 20));
 		RectangleShape player(Vector2f(50.0f, 50.0f));
@@ -243,22 +241,34 @@ public:
 						 {
 							 xofimg = 1;
 						 }
-						 y = player.getPosition().y - 15;
-						 isjumping = true;
+						 if (onverticalblock==false)
+						 {
+							 y = player.getPosition().y -15;
+							 isjumping = true;
+						 }
+						 else
+						 {
+							 isjumping = false;
+						 }
 					 }
 				}
 				if (event.type == Event::MouseButtonPressed)
 				{
 					if (event.mouseButton.button == sf::Mouse::Right)
 					{
-						//cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
+						cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
+						cout<<  (land[1].getGlobalBounds().left-(view.getCenter().x - view.getSize().x / 2)) /  view.getSize().x*1300<<"  "<<(land[1].getGlobalBounds().top-(view.getCenter().y - view.getSize().y / 2)) /  (view.getSize().y+3)*650<<endl;
 						//cout << land[1].getLocalBounds().width<<"   "<< land[1].getLocalBounds().height<< endl;
-						//cout << land[1].getGlobalBounds().width << "   " << land[1].getGlobalBounds().height << endl;
-						cout << life2[1].getGlobalBounds().width << "   " << life2[1].getGlobalBounds().height << endl;
+						cout << land[1].getGlobalBounds().width << "   " << land[1].getGlobalBounds().height << endl;
+						//cout << pipeup[0].getGlobalBounds().width<< "   " << pipeup[0].getGlobalBounds().height << endl;
 						//cout << bomb[1].getGlobalBounds().width << "   " << bomb[1].getGlobalBounds().height << endl;
-						//cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;
-						//cout << player.getGlobalBounds().width << "   " << player.getGlobalBounds().height << endl<<endl<<endl;
-						//cout << pipeup[1].getGlobalBounds().top << "   " << pipeup[1].getGlobalBounds().left << endl;
+						//cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;					    
+						//cout << pipeup[0].getLocalBounds().width<< "   " << pipeup[0].getLocalBounds().height<< endl;
+						//cout << player.getGlobalBounds().left << "   " << player.getGlobalBounds().top << endl;
+						//cout << player.getGlobalBounds().width << "   " << player.getGlobalBounds().height << endl;
+						//cout<< view.getSize().x<<" "<<view.getSize().y << endl;
+						//cout << view.getCenter().x << " " << view.getCenter().y << endl;
+						cout << endl;
 					}
 				}
 				if (event.type = Event::KeyReleased)
@@ -269,7 +279,7 @@ public:
 					}
 				}
 			}
-			if (isjumping == false)
+			if (isjumping == false and onsupport==false)
 			{
 				y = y + 3;
 			}
@@ -278,19 +288,19 @@ public:
 				xofimg = 3;
 				if (ismoving == true)
 				{
-					x = x + 20;
+					x = x + 5;
 					if (x < 1296)
 					{
 						view.move(0.5, 0);
 					}
 				}
 			}
-			else if (direction == 'L')
+			 if (direction == 'L')
 			{
 				xofimg = 1;
 				if (ismoving == true)
 				{
-					x = x - 20;
+					x = x - 5;
 					if (x > 3)
 					{
 						view.move(-0.5, 0);
@@ -299,8 +309,11 @@ public:
 			}
 			if (x > 1296)
 			{
-				if (noofslidex >2)
+				if (noofslidex > 2)
+				{
 					x = 1296;
+					ismoving = false;
+				}
 				else
 				{
 					x = 4;
@@ -357,7 +370,12 @@ public:
 			}
 			animation.Update(xofimg,deltatime);
 			player.setTextureRect(animation.uvRect);
+			
 			window.clear(Color::Red);
+			ismoving = true;
+			onsupport = false;
+			onverticalblock = false;
+
 			window.setView(view);
 			window.draw(sprite);
 			window.draw(sprite1);
@@ -366,13 +384,19 @@ public:
 			window.setView(window.getDefaultView());
 			window.draw(player);
 			window.setView(view);
-			window.draw(land[1]);
 			for (int i = 0; i < 9; i++)
 			{
 				window.draw(pipedown[i]);
 				window.draw(pipeup[i]);
 				window.draw(fire2[i]);
 				window.draw(fire1[i]);
+				if (ismoving == false)
+					continue;
+				else
+				{
+					iscolliding(&pipedown[i], direction, &player, &view, &ismoving);
+					iscolliding(&pipeup[i], direction, &player, &view, &ismoving);
+				}
 			}
 			for (int i = 0; i < 4; i++)
 			{
@@ -381,6 +405,12 @@ public:
 			for (int i = 0; i < 8; i++)
 			{
 				window.draw(land[i]);
+				if (onsupport == true or onverticalblock==true or ismoving==false)
+					continue;
+				else
+				{
+					iswithsupport(&land[i], direction, &player, &view, &ismoving, &onsupport, &onverticalblock);
+				}
 			}
 			for (int i = 0; i < 3; i++)
 			{
