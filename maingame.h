@@ -57,7 +57,10 @@ public:
 		view.setSize(200.f, 200.f);
 		view.setCenter(200, 550);
 
+				
 		Texture texture, texture1,texture2,texture4coin,texture4dangerobstacles[6], texture4lessdangerobstacles[3],texture4helpingbars[2],texture4lifeincreasingthings[2],texture4flag[3];
+		Texture texture4explosion;
+		texture4explosion.loadFromFile("images/explosion.png");
 		texture.loadFromFile("images/george.png");
 		texture1.loadFromFile("images/background_land.png");
 		texture2.loadFromFile("images/grass04.png");
@@ -96,6 +99,10 @@ public:
 		Sprite loadingfull[5], land[8];
 		Sprite life1[2], life2[2];
 		Sprite flag[3];
+		Sprite explosion;
+		explosion.setTexture(texture4explosion);
+		explosion.setPosition(395,580);
+		explosion.setScale(0.1, 0.1);
 		sprite.setTexture(texture1);
 		sprite1.setTexture(texture2);
 		sprite1.setScale(2.9, 0.2);
@@ -118,14 +125,14 @@ public:
 		for (int i = 0; i < 9; i++)
 		{
 			fire1[i].setTexture(texture4dangerobstacles[0]);
-			fire1[i].setScale(0.04, 0.04);
+			fire1[i].setScale(0.025*1.5, 0.025*1.5);
 			fire1[i].setPosition(Fire1X[i],Fire1Y[i]);
 		}
 		//fire2
 		for (int i = 0; i < 9; i++)
 		{
 			fire2[i].setTexture(texture4dangerobstacles[1]);
-			fire2[i].setScale(0.05*3, 0.05*3);
+			fire2[i].setScale(0.05*2.5, 0.05*2.5);
 			fire2[i].setPosition(Fire2X[i],Fire2Y[i]);
 		}
 		//pond
@@ -257,12 +264,12 @@ public:
 					if (event.mouseButton.button == sf::Mouse::Right)
 					{
 						cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
-						cout<<  (land[1].getGlobalBounds().left-(view.getCenter().x - view.getSize().x / 2)) /  view.getSize().x*1300<<"  "<<(land[1].getGlobalBounds().top-(view.getCenter().y - view.getSize().y / 2)) /  (view.getSize().y+3)*650<<endl;
+						cout<<  (thumb[0].getGlobalBounds().left-(view.getCenter().x - view.getSize().x / 2)) /  view.getSize().x*1300<<"  "<<(thumb[0].getGlobalBounds().top-(view.getCenter().y - view.getSize().y / 2)) /  (view.getSize().y+3)*650<<endl;
 						//cout << land[1].getLocalBounds().width<<"   "<< land[1].getLocalBounds().height<< endl;
-						cout << land[1].getGlobalBounds().width << "   " << land[1].getGlobalBounds().height << endl;
+						//cout << land[1].getGlobalBounds().width << "   " << land[1].getGlobalBounds().height << endl;
 						//cout << pipeup[0].getGlobalBounds().width<< "   " << pipeup[0].getGlobalBounds().height << endl;
 						//cout << bomb[1].getGlobalBounds().width << "   " << bomb[1].getGlobalBounds().height << endl;
-						//cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;					    
+						cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;					    
 						//cout << pipeup[0].getLocalBounds().width<< "   " << pipeup[0].getLocalBounds().height<< endl;
 						//cout << player.getGlobalBounds().left << "   " << player.getGlobalBounds().top << endl;
 						//cout << player.getGlobalBounds().width << "   " << player.getGlobalBounds().height << endl;
@@ -390,6 +397,8 @@ public:
 				window.draw(pipeup[i]);
 				window.draw(fire2[i]);
 				window.draw(fire1[i]);
+				iswithfire(&fire2[i], &direction, &player, &view);
+				iswithfire(&fire1[i], &direction, &player, &view);
 				if (ismoving == false)
 					continue;
 				else
@@ -401,6 +410,8 @@ public:
 			for (int i = 0; i < 4; i++)
 			{
 				window.draw(thumb[i]);
+				iswiththumb(&thumb[i], &direction, &player, &view);
+
 			}
 			for (int i = 0; i < 8; i++)
 			{
@@ -416,15 +427,24 @@ public:
 			{
 				window.draw(flag[i]);
 				window.draw(bomb[i]);
+				//window.draw(explosion);
+				if (iswithbomb(&bomb[i], &direction, &player, &view,&explosion))
+				{
+					window.draw(explosion);
+					sleep(seconds(2));
+					explosion.setPosition(11000, 11000);
+				}
 			}
 			for (int i = 0; i < 2; i++)
 			{
 				window.draw(danger[i]);
 				window.draw(life2[i]);
 				window.draw(life1[i]);
+				iswithlife(&life1[i], &direction, &player, &view);
+				iswithlife(&life2[i], &direction, &player, &view);
 			}
-			window.draw(fire2[1]);
-			window.draw(flag[2]);
+			//window.draw(fire2[1]);
+			//window.draw(flag[2]);
 			window.display();
 			sleep(seconds(0.08));
 		}

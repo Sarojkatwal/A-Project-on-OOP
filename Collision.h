@@ -2,6 +2,9 @@
 #include "maingame.h"
 using namespace std;
 using namespace sf;
+
+
+//Bars up and down
 void iscolliding(Sprite *object,char dir,RectangleShape *player,View *view,bool *ismoving)
 {
 	float width1, height1, top1, left1, width2, height2, top2, left2;
@@ -33,6 +36,8 @@ void iscolliding(Sprite *object,char dir,RectangleShape *player,View *view,bool 
 
 	}
 }
+
+//Support
 void iswithsupport(Sprite *object, char dir, RectangleShape *player, View *view, bool *ismoving, bool *onsupport, bool *onverticalblock)
 {
 	float width1, height1, top1, left1, width2, height2, top2, left2;
@@ -56,4 +61,98 @@ void iswithsupport(Sprite *object, char dir, RectangleShape *player, View *view,
 	{
 		*ismoving=false;
 	}
+}
+//fire
+void iswithfire(Sprite *object, char *dir, RectangleShape *player, View *view)
+{
+	float width1, height1, top1, left1, width2, height2, top2, left2;
+	width1 = player->getGlobalBounds().width;
+	height1 = player->getGlobalBounds().height;
+	top1 = player->getGlobalBounds().top;
+	left1 = player->getGlobalBounds().left;
+	height2 = object->getGlobalBounds().height / (view->getSize().y + 3) * 650;
+	width2 = object->getGlobalBounds().width / (view->getSize().x) * 1300;
+	top2 = (object->getGlobalBounds().top - (view->getCenter().y - view->getSize().y / 2)) / (view->getSize().y + 3) * 650;
+	left2 = (object->getGlobalBounds().left - (view->getCenter().x - view->getSize().x / 2)) / view->getSize().x * 1300;
+	if ((left1 > (left2 - width1 / 2) and left1 < (left2 + width2/1.25)) and (top1 > (top2 - height1) and top1 < (top2 + height2/2)))
+	{
+		if (*dir == 'L')
+		{
+			*dir = 'R';
+		}
+		else
+		{
+			*dir = 'L';
+		}
+	}
+}
+
+//With thumb
+void iswiththumb(Sprite *object, char *dir, RectangleShape *player, View *view)
+{
+	float width1, height1, top1, left1, width2, height2, top2, left2;
+	width1 = player->getGlobalBounds().width;
+	height1 = player->getGlobalBounds().height;
+	top1 = player->getGlobalBounds().top;
+	left1 = player->getGlobalBounds().left;
+	height2 = object->getGlobalBounds().height / (view->getSize().y + 3) * 650;
+	width2 = object->getGlobalBounds().width / (view->getSize().x) * 1300;
+	top2 = (object->getGlobalBounds().top - (view->getCenter().y - view->getSize().y / 2)) / (view->getSize().y + 3) * 650;
+	left2 = (object->getGlobalBounds().left - (view->getCenter().x - view->getSize().x / 2)) / view->getSize().x * 1300;
+	if ((left1 > (left2 + width1/1.5) and left1 < (left2 + width2/1.20)) and (top1 > (top2 - height1) and top1 < (top2 + height2)))
+	{
+		if (*dir == 'R')
+		{
+			*dir = 'L';
+		}
+		else
+		{
+			*dir = 'R';
+		}
+	}
+}
+
+
+//Life
+void iswithlife(Sprite *object, char *dir, RectangleShape *player, View *view)
+{
+	float width1, height1, top1, left1, width2, height2, top2, left2;
+	width1 = player->getGlobalBounds().width;
+	height1 = player->getGlobalBounds().height;
+	top1 = player->getGlobalBounds().top;
+	left1 = player->getGlobalBounds().left;
+	height2 = object->getGlobalBounds().height / (view->getSize().y + 3) * 650;
+	width2 = object->getGlobalBounds().width / (view->getSize().x) * 1300;
+	top2 = (object->getGlobalBounds().top - (view->getCenter().y - view->getSize().y / 2)) / (view->getSize().y + 3) * 650;
+	left2 = (object->getGlobalBounds().left - (view->getCenter().x - view->getSize().x / 2)) / view->getSize().x * 1300;
+	if ((left1 > (left2 - width1) and left1 < (left2 + width2)) and (top1 > (top2 - height1) and top1 < (top2 + height2)))
+	{
+
+		object->setPosition(11500, 11500);
+	}
+}
+ 
+//Bomb
+bool iswithbomb(Sprite *object, char *dir, RectangleShape *player, View *view,Sprite *explosion)
+{
+	float width1, height1, top1, left1, width2, height2, top2, left2;
+	width1 = player->getGlobalBounds().width;
+	height1 = player->getGlobalBounds().height;
+	top1 = player->getGlobalBounds().top;
+	left1 = player->getGlobalBounds().left;
+	height2 = object->getGlobalBounds().height / (view->getSize().y + 3) * 650;
+	width2 = object->getGlobalBounds().width / (view->getSize().x) * 1300;
+	top2 = (object->getGlobalBounds().top - (view->getCenter().y - view->getSize().y / 2)) / (view->getSize().y + 3) * 650;
+	left2 = (object->getGlobalBounds().left - (view->getCenter().x - view->getSize().x / 2)) / view->getSize().x * 1300;
+	if ((left1 > (left2 - width1) and left1 < (left2 + width2)) and (top1 > (top2 - height1) and top1 < (top2 + height2)))
+	{
+		explosion->setPosition(object->getGlobalBounds().left-80,object->getGlobalBounds().top-90);
+		if (*dir == 'R')
+		{
+			*dir = 'L';
+		}
+		return true;
+	}
+	else
+		return false;
 }
