@@ -46,7 +46,7 @@ public:
 			sound.play();
 			for (int j = 0; j <7; j++)
 			{
-				for (int i = 0; i < 1; i++)
+				for (int i = 0; i < 4; i++)
 				{
 					window.clear();
 					window.draw(sprite);
