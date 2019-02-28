@@ -44,7 +44,7 @@ public:
 			text1.setString("Loading.....");
 			text1.setPosition(370, 450);
 			sound.play();
-			for (int j = 0; j <1; j++)
+			for (int j = 0; j <7; j++)
 			{
 				for (int i = 0; i < 1; i++)
 				{
