@@ -9,14 +9,14 @@
 #include "Background.h"
 #include "Menu.h"
 #include "Fromfile.h"
-#include<Box2D\Box2D.h>
 #include "animation.h"
 using namespace std;
 using namespace sf;
 int main()
 {
+	int score;
 	string ch;
-	bool boo;
+	bool bo=true;
 	Background b;
 	Readfromfile rd;
 	A m;
@@ -29,10 +29,10 @@ int main()
 		switch (n)
 		{
 		case 1:
-			mm.start();
+			score=mm.start();
+			h.savehighscore(score);
 			break;
 		case 2:
-			h.savehighscore(23);
 			h.showhighscore();
 			break;
 		case 3:
@@ -44,8 +44,8 @@ int main()
 			rd.read(ch,"About");
 			break;
 		default:
-			boo = false;
+			bo = false;
 		}
-	} while (boo);
+	} while (bo);
 	return 0;
 }

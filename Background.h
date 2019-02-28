@@ -31,7 +31,6 @@ public:
 				sprite1[i].setPosition(370,390);
 			}
 			font.loadFromFile("font/loading.ttf");
-			font1.loadFromFile("font/loading.ttf");
 			text.setFont(font);
 			text.setCharacterSize(180);
 			text.setFillColor(Color::Red);
@@ -39,7 +38,7 @@ public:
 			text.setStyle(Text::Italic);
 			text.setString("    The \n Jumper");
 			text.setPosition(120, 20);
-			text1.setFont(font1);
+			text1.setFont(font);
 			text1.setCharacterSize(30);
 			text1.setFillColor(Color::Blue);
 			text1.setString("Loading.....");

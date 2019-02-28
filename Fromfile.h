@@ -50,82 +50,61 @@ public:
 class highscore
 {
 private:
-	string name="",name1="Saroj";
-	int score;
-	RenderWindow window;
-	Event event;
-	Text text;
-	Font font;
+	class nameandscore
+	{
+	public:
+		char name[25];
+		int score;
+	public:
+		void setdata(int n)
+		{
+			cout << "Enter your name:";
+			cin >> name;
+			score = n;
+		}
+	};
 public:
 	void savehighscore(int n)
 	{
-		score = n;
-		name = "";
-		window.create(VideoMode(400,300),"Askname");
-		font.loadFromFile("font/loading.ttf");
-		text.setFont(font);
-		text.setString("Name:");
-		while (window.isOpen())
-		{
-			window.clear();
-			window.draw(text);
-			window.display();
-			while (window.pollEvent(event))
-			{
-				if (event.key.code == Keyboard::Enter)
-				{
-					window.clear();
-					text.setString("Congraz " + name);
-					ofstream file("scorerecord.dat", ios::out|ios::binary);
-					file.seekp(0, ios::end);
-					file.write(reinterpret_cast<char*>(this), sizeof(*this));
-					file.close();
-					window.draw(text);
-					window.display();
-					sleep(seconds(2));
-					window.close();
-				}
-				if (event.type == Event::TextEntered)
-				{
-					name += event.text.unicode;
-					text.setString("Name=" + name);
-				}
-				if (event.type == Event::Closed)
-				{
-					window.close();
-				}
-			}
-		}
+		int score = n;
+		nameandscore ns;
+		ns.setdata(score);
+		ofstream file("file/scorerecord.dat", ios::binary|ios::app);
+		file.write(reinterpret_cast<char*>(&ns), sizeof(ns));
+		cout << ns.name << "  " << ns.score;
 	}
 	void showhighscore()
 	{
-		name1 = "";
-		window.create(VideoMode(400, 300), "Highscores");
+		nameandscore ns;
+		ostringstream outputfromfile;
+		RenderWindow window;
+		Text text;
+		Font font;
+		outputfromfile.str("");
+		window.create(VideoMode(800, 500), "Highscores");
 		font.loadFromFile("font/loading.ttf");
 		text.setFont(font);
+		text.setCharacterSize(20);
+		text.setPosition(20, 20);
+		text.setFillColor(Color::Red);
+		ifstream infile("file/scorerecord.dat", ios::in | ios::binary);
+		while (!infile.eof())
+		{
+			infile.read(reinterpret_cast<char*>(&ns), sizeof(ns));
+			outputfromfile << ns.name << "\t" << ns.score << "\n";
+		}
 		while (window.isOpen())
 		{
+			Event event;
 			while (window.pollEvent(event))
 			{
 				if (event.type == Event::Closed)
 					window.close();
-			}
-			ifstream infile("scorerecord.dat", ios::in|ios::binary);
-			while (!infile.eof())
-			{
-				if (infile.read(reinterpret_cast<char*>(this), sizeof(*this) ))
-				{
-					//name1 += name+"="+static_cast<char>(score)+"\n";
-					cout << name << ":" << score << endl;
-
-				}
-			}
-			infile.close();
-			text.setString(name1);
-			window.clear();
+			}		
+			text.setString(outputfromfile.str());
+			window.clear(Color::Black);
 			window.draw(text);
 			window.display();
 		}
 	}
 };
-

@@ -195,6 +195,7 @@ public:
 						window.display();
 						sleep(seconds(1));
 						window.close();
+						return 5;
 					}
 				}
 			}

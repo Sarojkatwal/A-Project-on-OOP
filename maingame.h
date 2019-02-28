@@ -1,16 +1,18 @@
 #pragma once
 #include "animation.h"
 #include "Collision.h"
+#include "lastwindow.h"
 using namespace sf;
 using namespace std;
 class mainGame
 {
 public:
-	int x=0, y=580,xofimg,noofslidex=0,noofslidey=0;
-	char direction='R';
-	bool isjumping = false, ismoving = true, onsupport = false,onverticalblock=false;
-	bool start()
+	int start()
 	{
+		int x = 0, y = 580, xofimg, noofslidex = 0, noofslidey = 0,returnscore=0;
+		int score = 0, nooflife = 300;
+		char direction = 'R';
+		bool isjumping = false, ismoving = true, onsupport = false, onverticalblock = false, pflag[3] = { true,true,true };
 		//Making array of obstacles and helping bars and life increasing materials
 		string dangerobstacle[6] = { "images/fire_P.png","images/fire_prev.png","images/thumb.png","images/danger.png","images/bomb.png","images/lake.png"};
 		string lessdangerobstacle[3] = { "images/bar.png","images/PipeDown.png","images/PipeUp.png" };
@@ -38,6 +40,8 @@ public:
 		float Life2Y[2]={270,460};
 		float Life1X[2] = {265 ,842 };
 		float Life1Y[2]={ 610,260 };
+		float CoinX[20] = { 980,970,840,800,746,710,700,680,620,540,500,444,400,324,300,220,136,286,206,100 };
+		float CoinY[20] = { 540,350,340,470,270,360,580,570,600,460,400,580,390,410,480,280,360,300,500,340 };
 		float Fire2X[9], Fire2Y[9];
 		for (int i = 0; i < 9; i++)
 		{
@@ -50,14 +54,29 @@ public:
 			Fire1X[i] = PipeupX[i] + 32.0;
 			Fire1Y[i] = PipeUpY[i] - 36.0;
 		}
-		RenderWindow window(VideoMode(1300, 650), "Maingame");
+		RenderWindow window(VideoMode(1300, 650), "Maingame"),window1;
 		window.setPosition(Vector2i(30, 20));
 		RectangleShape player(Vector2f(50.0f, 50.0f));
 		View view;
 		view.setSize(200.f, 200.f);
 		view.setCenter(200, 550);
 
-				
+
+		Font font4text;
+		Text textScore,textLife;
+		std::ostringstream setScore(ios::ate | ios::out),setLife(ios::ate | ios::out);
+		font4text.loadFromFile("font/loading.ttf");
+		textScore.setFont(font4text);
+		textLife.setFont(font4text);
+		textScore.setCharacterSize(20);
+		textLife.setCharacterSize(20);
+		textLife.setFillColor(Color::Red);
+		textScore.setFillColor(Color::Red);
+		textLife.setStyle(Text::Bold);
+		textScore.setStyle(Text::Bold);
+		textScore.setPosition(10, 10);
+		textLife.setPosition(1200, 10);
+
 		Texture texture, texture1,texture2,texture4coin,texture4dangerobstacles[6], texture4lessdangerobstacles[3],texture4helpingbars[2],texture4lifeincreasingthings[2],texture4flag[3];
 		Texture texture4explosion;
 		texture4explosion.loadFromFile("images/explosion.png");
@@ -111,7 +130,8 @@ public:
 		for (int i = 0; i < 20; i++)
 		{
 			coin[i].setTexture(texture4coin);
-			//coin[i].setPosition(CoinX[i], CoinY[i]);
+			coin[i].setPosition(CoinX[i], CoinY[i]);
+			coin[i].setScale(0.01, 0.01);
 		}
 		//Flags
 		for (int i = 0; i < 3; i++)
@@ -225,8 +245,8 @@ public:
 			{
 				if (event.type == Event::Closed)
 				{
+					return returnscore;
 					window.close();
-					return true;
 				}
 				if (event.type == Event::KeyPressed)
 				{
@@ -275,7 +295,7 @@ public:
 						//cout << player.getGlobalBounds().width << "   " << player.getGlobalBounds().height << endl;
 						//cout<< view.getSize().x<<" "<<view.getSize().y << endl;
 						//cout << view.getCenter().x << " " << view.getCenter().y << endl;
-						cout << endl;
+						cout << setScore.str()<<endl;
 					}
 				}
 				if (event.type = Event::KeyReleased)
@@ -386,8 +406,10 @@ public:
 			window.setView(view);
 			window.draw(sprite);
 			window.draw(sprite1);
-			window.draw(pond[1]);
 			window.draw(pond[0]);
+			isinpond(&pond[0], &direction, &player, &view,&nooflife);
+			window.draw(pond[1]);
+			isinpond(&pond[1], &direction, &player, &view, &nooflife);
 			window.setView(window.getDefaultView());
 			window.draw(player);
 			window.setView(view);
@@ -397,27 +419,29 @@ public:
 				window.draw(pipeup[i]);
 				window.draw(fire2[i]);
 				window.draw(fire1[i]);
-				iswithfire(&fire2[i], &direction, &player, &view);
-				iswithfire(&fire1[i], &direction, &player, &view);
+				iswithfire(&fire2[i], &direction, &player, &view, &nooflife);
+				iswithfire(&fire1[i], &direction, &player, &view, &nooflife);
 				if (ismoving == false)
 					continue;
 				else
 				{
-					iscolliding(&pipedown[i], direction, &player, &view, &ismoving);
-					iscolliding(&pipeup[i], direction, &player, &view, &ismoving);
+					iscolliding(&pipedown[i], direction, &player, &view, &ismoving, &nooflife);
+					iscolliding(&pipeup[i], direction, &player, &view, &ismoving, &nooflife);
 				}
 			}
 			for (int i = 0; i < 4; i++)
 			{
 				window.draw(thumb[i]);
-				iswiththumb(&thumb[i], &direction, &player, &view);
+				iswiththumb(&thumb[i], &direction, &player, &view, &nooflife);
 
 			}
 			for (int i = 0; i < 8; i++)
 			{
 				window.draw(land[i]);
-				if (onsupport == true or onverticalblock==true or ismoving==false)
+				if (onsupport == true or onverticalblock == true or ismoving == false)
+				{
 					continue;
+				}
 				else
 				{
 					iswithsupport(&land[i], direction, &player, &view, &ismoving, &onsupport, &onverticalblock);
@@ -426,13 +450,28 @@ public:
 			for (int i = 0; i < 3; i++)
 			{
 				window.draw(flag[i]);
+				if (i == 0 or pflag[i - 1] == false)
+				{
+					if (iswithflag(&flag[i], &direction, &player, &view))
+					{
+						pflag[i] = false;
+						flag[i].setPosition(11100, 11100);
+					}
+				}
+				if (pflag[0] == false and pflag[1] == false and pflag[2] == false)
+				{
+					returnscore=lwindow(&window1, 500,"Game completed",2000);
+					return returnscore;
+					window.close();
+				}
 				window.draw(bomb[i]);
-				//window.draw(explosion);
 				if (iswithbomb(&bomb[i], &direction, &player, &view,&explosion))
 				{
 					window.draw(explosion);
 					sleep(seconds(2));
 					explosion.setPosition(11000, 11000);
+					nooflife = 0;
+					break;
 				}
 			}
 			for (int i = 0; i < 2; i++)
@@ -440,13 +479,35 @@ public:
 				window.draw(danger[i]);
 				window.draw(life2[i]);
 				window.draw(life1[i]);
-				iswithlife(&life1[i], &direction, &player, &view);
-				iswithlife(&life2[i], &direction, &player, &view);
+				iswithlife(&life1[i], &direction, &player, &view, &nooflife);
+				iswithlife(&life2[i], &direction, &player, &view, &nooflife);
 			}
-			//window.draw(fire2[1]);
-			//window.draw(flag[2]);
+			for (int i = 0; i < 20; i++)
+			{
+				window.draw(coin[i]);
+				if (iswithcoin(&coin[i], &direction, &player, &view))
+				{
+					score += 40;
+				}
+			}
+			window.setView(window.getDefaultView());
+			setScore.str("");
+			setLife.str("");
+			setScore << "Score:" << score;
+			setLife << "Life:" << nooflife;
+			textScore.setString(setScore.str());
+			textLife.setString(setLife.str());
+			window.draw(textLife);
+			window.draw(textScore);
+			window.setView(view);
 			window.display();
 			sleep(seconds(0.08));
+			if (nooflife <= 1)
+			{
+				returnscore=lwindow(&window1, score,"Retry");
+				return returnscore;
+				window.close();
+			}
 		}
 	}
 };
