@@ -9,7 +9,8 @@ class mainGame
 public:
 	int start()
 	{
-		int x = 0, y = 580, xofimg, noofslidex = 0, noofslidey = 0,returnscore=0;
+		int xofimg, noofslidex = 0, noofslidey = 0,returnscore=0;
+		float x = 0, y = 580;
 		int score = 0, nooflife = 300;
 		char direction = 'R';
 		bool isjumping = false, ismoving = true, onsupport = false, onverticalblock = false, pflag[3] = { true,true,true };
@@ -283,19 +284,19 @@ public:
 				{
 					if (event.mouseButton.button == sf::Mouse::Right)
 					{
-						cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
-						cout<<  (thumb[0].getGlobalBounds().left-(view.getCenter().x - view.getSize().x / 2)) /  view.getSize().x*1300<<"  "<<(thumb[0].getGlobalBounds().top-(view.getCenter().y - view.getSize().y / 2)) /  (view.getSize().y+3)*650<<endl;
+						//cout << event.mouseButton.x << "  " << event.mouseButton.y << endl;
+						//cout<<  (thumb[0].getGlobalBounds().left-(view.getCenter().x - view.getSize().x / 2)) /  view.getSize().x*1300<<"  "<<(thumb[0].getGlobalBounds().top-(view.getCenter().y - view.getSize().y / 2)) /  (view.getSize().y+3)*650<<endl;
 						//cout << land[1].getLocalBounds().width<<"   "<< land[1].getLocalBounds().height<< endl;
 						//cout << land[1].getGlobalBounds().width << "   " << land[1].getGlobalBounds().height << endl;
 						//cout << pipeup[0].getGlobalBounds().width<< "   " << pipeup[0].getGlobalBounds().height << endl;
 						//cout << bomb[1].getGlobalBounds().width << "   " << bomb[1].getGlobalBounds().height << endl;
-						cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;					    
+						//cout << thumb[1].getGlobalBounds().width << "   " << thumb[1].getGlobalBounds().height << endl;					    
 						//cout << pipeup[0].getLocalBounds().width<< "   " << pipeup[0].getLocalBounds().height<< endl;
 						//cout << player.getGlobalBounds().left << "   " << player.getGlobalBounds().top << endl;
 						//cout << player.getGlobalBounds().width << "   " << player.getGlobalBounds().height << endl;
 						//cout<< view.getSize().x<<" "<<view.getSize().y << endl;
 						//cout << view.getCenter().x << " " << view.getCenter().y << endl;
-						cout << setScore.str()<<endl;
+						//cout << setScore.str()<<endl;
 					}
 				}
 				if (event.type = Event::KeyReleased)
@@ -509,5 +510,6 @@ public:
 				window.close();
 			}
 		}
+		return 0;
 	}
 };

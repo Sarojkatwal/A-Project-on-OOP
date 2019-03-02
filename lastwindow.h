@@ -29,4 +29,5 @@ int lwindow(RenderWindow *window1,int score,const string str,int bonusscore=0)
 		window1->draw(text);
 		window1->display();
 	}
+	return score + bonusscore;
 }

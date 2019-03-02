@@ -1,3 +1,2 @@
-This game is made as a project of  OOP in C + + language
-by SPS trio. SFML graphics library and physics algorit-
-hm are used to construct this game.
+This game is made as a project of  OOP .SFML 
+graphics libraryis used to construct this game.
