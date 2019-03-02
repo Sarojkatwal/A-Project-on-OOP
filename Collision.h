@@ -201,7 +201,7 @@ bool isinpond(Sprite *object, char *dir, RectangleShape *player, View *view,int 
 	width2 = object->getGlobalBounds().width / (view->getSize().x) * 1300;
 	top2 = (object->getGlobalBounds().top - (view->getCenter().y - view->getSize().y / 2)) / (view->getSize().y + 3) * 650;
 	left2 = (object->getGlobalBounds().left - (view->getCenter().x - view->getSize().x / 2)) / view->getSize().x * 1300;
-	if ((left1 > (left2 - width1) and left1 < (left2 + width2)) and (top1 > (top2 - height1/1.5) and top1 < (top2 + height2)))
+	if ((left1 > (left2 - width1) and left1 < (left2 + width2)) and (top1 > (top2 - height1/1.8) and top1 < (top2 + height2)))
 	{
 		if (*dir == 'R')
 		{
@@ -211,8 +211,8 @@ bool isinpond(Sprite *object, char *dir, RectangleShape *player, View *view,int 
 		{
 			*dir = 'R';
 		}
-		nooflife -= 1;
-		player->setPosition(Vector2f(player->getPosition().x, player->getPosition().y - 80));
+		*nooflife -= 2;
+		player->setPosition(Vector2f(player->getPosition().x, player->getPosition().y - 50));
 		return true;
 	}
 	else
