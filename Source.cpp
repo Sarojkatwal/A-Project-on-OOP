@@ -10,6 +10,8 @@
 #include "Menu.h"
 #include "Fromfile.h"
 #include "animation.h"
+#include "lastwindow.h"
+#include "Collision.h"
 using namespace std;
 using namespace sf;
 int main()

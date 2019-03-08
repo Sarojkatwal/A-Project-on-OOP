@@ -27,9 +27,6 @@
     <ClInclude Include="maingame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="construction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
